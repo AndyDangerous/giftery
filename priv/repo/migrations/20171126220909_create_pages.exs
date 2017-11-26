@@ -5,7 +5,7 @@ defmodule Giftery.Repo.Migrations.CreatePages do
     create table(:pages) do
       add :title, :string
       add :body, :text
-      add :views, :integer
+      add :views, :integer, default: 0
 
       timestamps()
     end
