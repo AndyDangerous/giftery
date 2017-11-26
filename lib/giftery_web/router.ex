@@ -23,6 +23,12 @@ defmodule GifteryWeb.Router do
                                                      singleton: true
   end
 
+  scope "/cms", GifteryWeb.CMS, as: :cms do
+    pipe_through [:browser, :authenticate_user]
+
+    resources "/pages", PageController
+  end
+
   # Other scopes may use custom stacks.
   # scope "/api", GifteryWeb do
   #   pipe_through :api
