@@ -6,7 +6,7 @@ defmodule Giftery.Accounts do
   import Ecto.Query, warn: false
   alias Giftery.Repo
 
-  alias Giftery.Accounts.User
+  alias Giftery.Accounts.{User, Credential}
 
   @doc """
   Returns the list of users.
@@ -58,6 +58,7 @@ defmodule Giftery.Accounts do
   def create_user(attrs \\ %{}) do
     %User{}
     |> User.changeset(attrs)
+    |> Ecto.Changeset.cast_assoc(:credential, with: &Credential.changeset/2)
     |> Repo.insert()
   end
 
@@ -76,6 +77,7 @@ defmodule Giftery.Accounts do
   def update_user(%User{} = user, attrs) do
     user
     |> User.changeset(attrs)
+    |> Ecto.Changeset.cast_assoc(:credential, with: &Credential.changeset/2)
     |> Repo.update()
   end
 
@@ -107,8 +109,6 @@ defmodule Giftery.Accounts do
   def change_user(%User{} = user) do
     User.changeset(user, %{})
   end
-
-  alias Giftery.Accounts.Credential
 
   @doc """
   Returns the list of credentials.
