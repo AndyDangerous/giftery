@@ -8,6 +8,19 @@ defmodule Giftery.Accounts do
 
   alias Giftery.Accounts.{User, Credential}
 
+  def authenticate_by_email_password(email, _password) do
+    query =
+      from u in User,
+      inner_join: c in assoc(u, :credential),
+      where: c.email == ^email
+
+    case Repo.one(query) do
+      %User{} = user -> {:ok, user}
+      nil -> {:error, :unauthorized}
+    end
+  end
+
+
   @doc """
   Returns the list of users.
 
