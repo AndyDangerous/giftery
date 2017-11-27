@@ -21,10 +21,6 @@
     <strong>Gift For:</strong>
     <%= author_name(@gift) %>
   </li>
-  <li>
-    <strong>Available:</strong>
-    <%= @gift.available %>
-  </li>
 
 </ul>
 

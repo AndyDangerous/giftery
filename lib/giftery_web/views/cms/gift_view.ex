@@ -3,7 +3,7 @@ defmodule GifteryWeb.CMS.GiftView do
 
   alias Giftery.CMS
 
-  def author_name(%CMS.Page{author: author}) do
+  def author_name(%CMS.Gift{author: author}) do
     author.user.name
   end
 end
