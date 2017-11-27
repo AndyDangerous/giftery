@@ -4,7 +4,7 @@ defmodule GifteryWeb.CMS.PageController do
   alias Giftery.CMS
   alias Giftery.CMS.Page
 
-  plug :require_existing_author
+  plug GifteryWeb.Plug.RequireExistingAuthor
   plug :authorize_page when action in [:edit, :update, :delete]
 
   def index(conn, _params) do
@@ -58,11 +58,6 @@ defmodule GifteryWeb.CMS.PageController do
     conn
     |> put_flash(:info, "Page deleted successfully.")
     |> redirect(to: cms_page_path(conn, :index))
-  end
-
-  defp require_existing_author(conn, _) do
-    author = CMS.ensure_author_exists(conn.assigns.current_user)
-    assign(conn, :current_author, author)
   end
 
   defp authorize_page(conn, _) do

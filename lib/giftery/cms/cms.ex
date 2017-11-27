@@ -238,7 +238,9 @@ defmodule Giftery.CMS do
 
   """
   def list_gifts do
-    Repo.all(Gift)
+    Gift
+    |> Repo.all()
+    |> Repo.preload(author: [user: :credential])
   end
 
   @doc """
@@ -255,7 +257,11 @@ defmodule Giftery.CMS do
       ** (Ecto.NoResultsError)
 
   """
-  def get_gift!(id), do: Repo.get!(Gift, id)
+  def get_gift!(id) do
+    Gift
+    |> Repo.get(id)
+    |> Repo.preload(author: [user: :credential])
+  end
 
   @doc """
   Creates a gift.
@@ -269,9 +275,10 @@ defmodule Giftery.CMS do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_gift(attrs \\ %{}) do
+  def create_gift(%Author{} = author, attrs \\ %{}) do
     %Gift{}
     |> Gift.changeset(attrs)
+    |> Ecto.Changeset.put_change(:author_id, author.id)
     |> Repo.insert()
   end
 
