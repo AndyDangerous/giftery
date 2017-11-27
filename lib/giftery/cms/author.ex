@@ -1,14 +1,16 @@
 defmodule Giftery.CMS.Author do
   use Ecto.Schema
   import Ecto.Changeset
-  alias Giftery.CMS.Author
+  alias Giftery.CMS.{Author, Page}
 
 
   schema "authors" do
     field :bio, :string
     field :genre, :string
     field :role, :string
-    field :user_id, :id
+
+    has_many :pages, Page
+    belongs_to :user, Giftery.Accounts.User
 
     timestamps()
   end
