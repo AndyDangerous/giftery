@@ -26,6 +26,7 @@ defmodule GifteryWeb.Router do
   scope "/cms", GifteryWeb.CMS, as: :cms do
     pipe_through [:browser, :authenticate_user]
 
+    resources "/gifts", GiftController
     resources "/pages", PageController
   end
 
