@@ -1,0 +1,32 @@
+<h2>Listing Gifts</h2>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Url</th>
+      <th>Notes</th>
+      <th>Available</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for gift <- @gifts do %>
+    <tr>
+      <td><%= gift.name %></td>
+      <td><%= gift.url %></td>
+      <td><%= gift.notes %></td>
+      <td><%= gift.available %></td>
+
+      <td class="text-right">
+        <span><%= link "Show", to: cms_gift_path(@conn, :show, gift), class: "btn btn-default btn-xs" %></span>
+        <span><%= link "Edit", to: cms_gift_path(@conn, :edit, gift), class: "btn btn-default btn-xs" %></span>
+        <span><%= link "Delete", to: cms_gift_path(@conn, :delete, gift), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %></span>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<span><%= link "New Gift", to: cms_gift_path(@conn, :new) %></span>

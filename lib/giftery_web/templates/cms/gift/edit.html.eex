@@ -1,0 +1,5 @@
+<h2>Edit Gift</h2>
+
+<%= render "form.html", Map.put(assigns, :action, cms_gift_path(@conn, :update, @gift)) %>
+
+<span><%= link "Back", to: cms_gift_path(@conn, :index) %></span>

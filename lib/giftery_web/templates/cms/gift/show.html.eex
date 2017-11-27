@@ -1,0 +1,28 @@
+<h2>Show Gift</h2>
+
+<ul>
+
+  <li>
+    <strong>Name:</strong>
+    <%= @gift.name %>
+  </li>
+
+  <li>
+    <strong>Url:</strong>
+    <%= @gift.url %>
+  </li>
+
+  <li>
+    <strong>Notes:</strong>
+    <%= @gift.notes %>
+  </li>
+
+  <li>
+    <strong>Available:</strong>
+    <%= @gift.available %>
+  </li>
+
+</ul>
+
+<span><%= link "Edit", to: cms_gift_path(@conn, :edit, @gift) %></span>
+<span><%= link "Back", to: cms_gift_path(@conn, :index) %></span>

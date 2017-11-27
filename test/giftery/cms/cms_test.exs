@@ -130,4 +130,70 @@ defmodule Giftery.CMSTest do
       assert %Ecto.Changeset{} = CMS.change_author(author)
     end
   end
+
+  describe "gifts" do
+    alias Giftery.CMS.Gift
+
+    @valid_attrs %{available: true, name: "some name", notes: "some notes", url: "some url"}
+    @update_attrs %{available: false, name: "some updated name", notes: "some updated notes", url: "some updated url"}
+    @invalid_attrs %{available: nil, name: nil, notes: nil, url: nil}
+
+    def gift_fixture(attrs \\ %{}) do
+      {:ok, gift} =
+        attrs
+        |> Enum.into(@valid_attrs)
+        |> CMS.create_gift()
+
+      gift
+    end
+
+    test "list_gifts/0 returns all gifts" do
+      gift = gift_fixture()
+      assert CMS.list_gifts() == [gift]
+    end
+
+    test "get_gift!/1 returns the gift with given id" do
+      gift = gift_fixture()
+      assert CMS.get_gift!(gift.id) == gift
+    end
+
+    test "create_gift/1 with valid data creates a gift" do
+      assert {:ok, %Gift{} = gift} = CMS.create_gift(@valid_attrs)
+      assert gift.available == true
+      assert gift.name == "some name"
+      assert gift.notes == "some notes"
+      assert gift.url == "some url"
+    end
+
+    test "create_gift/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = CMS.create_gift(@invalid_attrs)
+    end
+
+    test "update_gift/2 with valid data updates the gift" do
+      gift = gift_fixture()
+      assert {:ok, gift} = CMS.update_gift(gift, @update_attrs)
+      assert %Gift{} = gift
+      assert gift.available == false
+      assert gift.name == "some updated name"
+      assert gift.notes == "some updated notes"
+      assert gift.url == "some updated url"
+    end
+
+    test "update_gift/2 with invalid data returns error changeset" do
+      gift = gift_fixture()
+      assert {:error, %Ecto.Changeset{}} = CMS.update_gift(gift, @invalid_attrs)
+      assert gift == CMS.get_gift!(gift.id)
+    end
+
+    test "delete_gift/1 deletes the gift" do
+      gift = gift_fixture()
+      assert {:ok, %Gift{}} = CMS.delete_gift(gift)
+      assert_raise Ecto.NoResultsError, fn -> CMS.get_gift!(gift.id) end
+    end
+
+    test "change_gift/1 returns a gift changeset" do
+      gift = gift_fixture()
+      assert %Ecto.Changeset{} = CMS.change_gift(gift)
+    end
+  end
 end
