@@ -1,0 +1,8 @@
+<div class="jumbotron">
+  <h2>Welcome to Giftery</h2>
+  <p class="lead">A place to plan gifts for a group<br />where everyone can get a surprise!!</p>
+
+  <h3><%= link "Edit My Wishlist", to: cms_gift_path(@conn, :index) %></h3>
+  <%# <h3><%= link "View Wishlists", to: cms_author_path(@conn, :index) %1></h3> %>
+  <h3><%= link "Logout", to: session_path(@conn, :delete) %></h3>
+</div>

@@ -13,18 +13,23 @@ defmodule GifteryWeb.Router do
     plug :accepts, ["json"]
   end
 
+  pipeline :auth do
+    plug GifteryWeb.Plug.AuthenticateUser
+  end
+
   scope "/", GifteryWeb do
     pipe_through :browser # Use the default browser stack
 
     get "/", PageController, :index
+    get "/welcome", PageController, :welcome
 
-    resources "/users", UserController
+    resources "/users", UserController, only: [:new, :create]
     resources "/sessions", SessionController, only: [:new, :create, :delete],
                                                      singleton: true
   end
 
   scope "/cms", GifteryWeb.CMS, as: :cms do
-    pipe_through [:browser, :authenticate_user]
+    pipe_through [:browser, :auth]
 
     resources "/gifts", GiftController
     resources "/pages", PageController
@@ -34,16 +39,4 @@ defmodule GifteryWeb.Router do
   # scope "/api", GifteryWeb do
   #   pipe_through :api
   # end
-  defp authenticate_user(conn, _) do
-    case get_session(conn, :user_id) do
-      nil ->
-        conn
-        |> Phoenix.Controller.put_flash(:error, "Login required")
-        |> Phoenix.Controller.redirect(to: "/")
-        |> halt()
-      user_id ->
-        assign(conn, :current_user, Giftery.Accounts.get_user!(user_id))
-    end
-  end
-
 end
