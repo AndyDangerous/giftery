@@ -8,6 +8,14 @@ defmodule Giftery.CMS do
   alias Giftery.CMS.{Page, Author}
   alias Giftery.Accounts
 
+  def inc_page_views(%Page{} = page) do
+    {1, [%Page{views: views}]} =
+      Repo.update_all(from(p in Page, where: p.id == ^page.id),
+      [inc: [views: 1]], returning: [:views])
+
+    put_in(page.views, views)
+  end
+
   def ensure_author_exists(%Accounts.User{} = user) do
     %Author{user_id: user.id}
     |> Ecto.Changeset.change()
