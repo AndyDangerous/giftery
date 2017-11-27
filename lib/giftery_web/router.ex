@@ -23,7 +23,7 @@ defmodule GifteryWeb.Router do
     get "/", PageController, :index
     get "/welcome", PageController, :welcome
 
-    resources "/users", UserController, only: [:new, :create]
+    resources "/users", UserController
     resources "/sessions", SessionController, only: [:new, :create, :delete],
                                                      singleton: true
   end

@@ -229,16 +229,16 @@ defmodule Giftery.CMS do
   end
 
   @doc """
-  Returns the list of gifts.
+  Returns the list of gifts for the given author.
 
   ## Examples
 
-      iex> list_gifts()
+  iex> list_gifts(%CMS.Author{})
       [%Gift{}, ...]
 
   """
-  def list_gifts do
-    Gift
+  def list_gifts(%Author{} = author) do
+    (from g in Gift, where: g.author_id == ^author.id)
     |> Repo.all()
     |> Repo.preload(author: [user: :credential])
   end

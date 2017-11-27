@@ -8,7 +8,8 @@ defmodule GifteryWeb.CMS.GiftController do
   plug :authorize_gift when action in [:edit, :update, :delete]
 
   def index(conn, _params) do
-    gifts = CMS.list_gifts()
+    author = conn.assigns.current_author
+    gifts = CMS.list_gifts(author)
     render(conn, "index.html", gifts: gifts)
   end
 
